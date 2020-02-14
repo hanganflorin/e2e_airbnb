@@ -22,6 +22,9 @@ exports.config = {
     specs: [
         './test/specs/**/*.js'
     ],
+    appURL: 'https://www.airbnb.com',
+
+
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
@@ -67,7 +70,7 @@ exports.config = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: 'info',
+    logLevel: 'silent',
     //
     // Set specific log levels per logger
     // loggers:
