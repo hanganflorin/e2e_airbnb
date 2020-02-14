@@ -18,5 +18,13 @@ class SearchPage {
     get eGuestsFilterSpan() {
         return $(`${this.eFilters.selector}//div[@id="menuItemButton-guest_picker"]//span[text()]`);
     }
+
+    get eItemList() {
+        return $('//div[@itemprop="itemList"]');
+    }
+
+    get eListingsGuestsDetails() {
+        return $$('//div[@itemprop="itemListElement"]//div[contains(text(), "guests")]');
+    }
 }
 export default new SearchPage();

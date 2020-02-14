@@ -1,4 +1,4 @@
-import Page from './page'
+import Page from './page';
 import Selectors from '../selectors/homePage';
 
 class HomePage extends Page {
@@ -18,12 +18,11 @@ class HomePage extends Page {
         this.getSelectors().eCalendar.waitForDisplayed();
 
         const currentDate = new Date();
-        let offsetDate = new Date();
+        const offsetDate = new Date();
         offsetDate.setDate(currentDate.getDate() + offset);
 
         const monthDiff = offsetDate.getMonth() - currentDate.getMonth();
-        console.log("DIFF:", monthDiff);
-        for ( let i = 0; i < monthDiff; i++ ) {
+        for (let i = 0; i < monthDiff; i++) {
             this.clickElement(this.getSelectors().eCalendarNextMonth);
         }
 
@@ -38,7 +37,5 @@ class HomePage extends Page {
         const eCalendarDay = $(`${this.getSelectors().sCalendarDay}[text()="${day}"]`);
         this.clickElement(eCalendarDay);
     }
-
-
 }
 export default new HomePage();

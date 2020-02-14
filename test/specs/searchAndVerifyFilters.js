@@ -1,5 +1,7 @@
-import HomePage from '../pages/homePage'
-import SearchPage from '../pages/searchPage'
+import Assert from 'assert';
+
+import HomePage from '../pages/homePage';
+import SearchPage from '../pages/searchPage';
 
 describe('Homepage', () => {
     it('should open home page', () => {
@@ -8,25 +10,25 @@ describe('Homepage', () => {
     });
 
     it('should select the filters and then search', () => {
-        //select location
+        // select location
         HomePage.enterInputElement(HomePage.getSelectors().eLocationInput, 'Rome, Italy');
         HomePage.clickElement(HomePage.getSelectors().eLocationFirstSuggestion);
 
-        //select date
+        // select date
         HomePage.clickElement(HomePage.getSelectors().eCheckInInput);
         HomePage.selectDateFromCalendar(7);
 
         HomePage.clickElement(HomePage.getSelectors().eCheckOutInput);
         HomePage.selectDateFromCalendar(14);
 
-        //select guests
+        // select guests
         HomePage.clickElement(HomePage.getSelectors().eGuestsBtn);
         HomePage.clickElement(HomePage.getSelectors().eAdultsPlusBtn);
         HomePage.clickElement(HomePage.getSelectors().eAdultsPlusBtn);
         HomePage.clickElement(HomePage.getSelectors().eChildrenPlusBtn);
         HomePage.clickElement(HomePage.getSelectors().eGuestsSaveBtn);
 
-        //search
+        // search
         HomePage.clickElement(HomePage.getSelectors().eSearchBtn);
     });
 
@@ -36,6 +38,14 @@ describe('Homepage', () => {
         SearchPage.verifyText(SearchPage.getSelectors().eSearchInput.getValue(), 'Metropolitan City of Rome · Stays');
         SearchPage.verifyText(SearchPage.getSelectors().eDateFilterSpan.getText(), SearchPage.expectedDateFilterText(7, 14));
         SearchPage.verifyText(SearchPage.getSelectors().eGuestsFilterSpan.getText(), '3 guests');
+    });
 
+    it('should verify that all listings have at least 3 guests', () => {
+        SearchPage.getSelectors().eItemList.waitForDisplayed();
+
+        SearchPage.getSelectors().eListingsGuestsDetails.map((guestsDetails) => {
+            // verify that the first number is >= 3
+            Assert(parseInt(guestsDetails.getText().replace(/(^\d+)(.+$)/i, '$1'), 10) >= 3, 'A listing has less than 3 guests!');
+        });
     });
 });

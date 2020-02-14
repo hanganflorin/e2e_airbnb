@@ -1,4 +1,4 @@
-import Page from './page'
+import Page from './page';
 import Selectors from '../selectors/searchPage';
 
 class SearchPage extends Page {
@@ -12,13 +12,13 @@ class SearchPage extends Page {
     }
 
     expectedDateFilterText(offsetCheckIn, offsetCheckOut) {
-        //Feb 20 - 27
-        //Mar 28 - Apr 10
-        //todo: year not consider. ex: Mar 12, 2021 - Mar 10, 2022
+        // Feb 20 - 27
+        // Mar 28 - Apr 10
+        // todo: year not consider. ex: Mar 12, 2021 - Mar 10, 2022
 
         const currentDate = new Date();
-        let offsetCheckInDate = new Date();
-        let offsetCheckOutDate = new Date();
+        const offsetCheckInDate = new Date();
+        const offsetCheckOutDate = new Date();
         offsetCheckInDate.setDate(currentDate.getDate() + offsetCheckIn);
         offsetCheckOutDate.setDate(currentDate.getDate() + offsetCheckOut);
 
@@ -29,8 +29,7 @@ class SearchPage extends Page {
         const checkOutMonth = offsetCheckOutDate.getMonth() - offsetCheckInDate.getMonth() > 0 ? monthNames[offsetCheckOutDate.getMonth()] : '';
         const checkOutDay = offsetCheckOutDate.getDate();
 
-        return `${checkInMonth}${checkInDay} - ${checkOutMonth}${checkOutDay}`
+        return `${checkInMonth}${checkInDay} - ${checkOutMonth}${checkOutDay}`;
     }
-
 }
 export default new SearchPage();
