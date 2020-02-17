@@ -1,34 +1,15 @@
-import Assert from 'assert';
-
 import HomePage from '../pages/homePage';
 import SearchPage from '../pages/searchPage';
 
-describe('Homepage', () => {
+describe('Filters', () => {
     it('should open home page', () => {
         HomePage.open();
         HomePage.waitForHomePage();
     });
 
-    it('should select the filters and then search', () => {
-        // select location
-        HomePage.enterInputElement(HomePage.getSelectors().eLocationInput, 'Rome, Italy');
-        HomePage.clickElement(HomePage.getSelectors().eLocationFirstSuggestion);
+    it('should fill in the filters and then search', () => {
+        HomePage.fillInFilters();
 
-        // select date
-        HomePage.clickElement(HomePage.getSelectors().eCheckInInput);
-        HomePage.selectDateFromCalendar(7);
-
-        HomePage.clickElement(HomePage.getSelectors().eCheckOutInput);
-        HomePage.selectDateFromCalendar(14);
-
-        // select guests
-        HomePage.clickElement(HomePage.getSelectors().eGuestsBtn);
-        HomePage.clickElement(HomePage.getSelectors().eAdultsPlusBtn);
-        HomePage.clickElement(HomePage.getSelectors().eAdultsPlusBtn);
-        HomePage.clickElement(HomePage.getSelectors().eChildrenPlusBtn);
-        HomePage.clickElement(HomePage.getSelectors().eGuestsSaveBtn);
-
-        // search
         HomePage.clickElement(HomePage.getSelectors().eSearchBtn);
     });
 
@@ -41,11 +22,6 @@ describe('Homepage', () => {
     });
 
     it('should verify that all listings have at least 3 guests', () => {
-        SearchPage.getSelectors().eItemList.waitForDisplayed();
-
-        SearchPage.getSelectors().eListingsGuestsDetails.map((guestsDetails) => {
-            // verify that the first number is >= 3
-            Assert(parseInt(guestsDetails.getText().replace(/(^\d+)(.+$)/i, '$1'), 10) >= 3, 'A listing has less than 3 guests!');
-        });
+        SearchPage.verifyAmenityNumberFromListings('guests', 3);
     });
 });

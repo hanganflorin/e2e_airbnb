@@ -18,4 +18,8 @@ export default class Page {
     verifyText(inputText, expectedText) {
         Assert(inputText === expectedText, `Text doesn't match!\nActual text: ${inputText}\nExpected text: ${expectedText}`);
     }
+
+    scrollToElement(selector) {
+        selector.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+    }
 }

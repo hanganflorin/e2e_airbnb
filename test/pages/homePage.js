@@ -14,6 +14,26 @@ class HomePage extends Page {
         this.getSelectors().eFormSearch.waitForDisplayed();
     }
 
+    fillInFilters() {
+        // select location
+        this.enterInputElement(this.getSelectors().eLocationInput, 'Rome, Italy');
+        this.clickElement(this.getSelectors().eLocationFirstSuggestion);
+
+        // select date
+        this.clickElement(this.getSelectors().eCheckInInput);
+        this.selectDateFromCalendar(7);
+
+        this.clickElement(this.getSelectors().eCheckOutInput);
+        this.selectDateFromCalendar(14);
+
+        // select guests
+        this.clickElement(this.getSelectors().eGuestsBtn);
+        this.clickElement(this.getSelectors().eAdultsPlusBtn);
+        this.clickElement(this.getSelectors().eAdultsPlusBtn);
+        this.clickElement(this.getSelectors().eChildrenPlusBtn);
+        this.clickElement(this.getSelectors().eGuestsSaveBtn);
+    }
+
     selectDateFromCalendar(offset = 7) {
         this.getSelectors().eCalendar.waitForDisplayed();
 
@@ -28,13 +48,14 @@ class HomePage extends Page {
 
         // wait for month to transition
         // nice implementation: use waitUntil
-        browser.pause(100);
+        browser.pause(200);
 
         this.selectDayFromCalendar(offsetDate.getDate());
     }
 
     selectDayFromCalendar(day) {
         const eCalendarDay = $(`${this.getSelectors().sCalendarDay}[text()="${day}"]`);
+        eCalendarDay.waitForDisplayed();
         this.clickElement(eCalendarDay);
     }
 }

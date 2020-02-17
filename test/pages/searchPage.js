@@ -31,5 +31,43 @@ class SearchPage extends Page {
 
         return `${checkInMonth}${checkInDay} - ${checkOutMonth}${checkOutDay}`;
     }
+
+    selectPoolFilter() {
+        // because of some AB tests the pool checkbox is shown only if you press show more button
+        if (this.getSelectors().eExtraFiltersShowAllBtn.isExisting()) {
+            this.scrollToElement(this.getSelectors().eExtraFiltersShowAllBtn);
+            this.clickElement(this.getSelectors().eExtraFiltersShowAllBtn);
+        }
+        this.scrollToElement(this.getSelectors().ePoolCheckbox);
+        this.clickElement(this.getSelectors().ePoolCheckbox);
+    }
+
+    /**
+     * Get the amenity number from a text.
+     * Input:
+     *  text: "31 guests · 12 bedroom · 2 beds · 1 private bath"
+     *  amenity: the amenity to search for: "guests", "bedroom", "beds", etc
+     *  Returns a integer or Nan if something went wrong.
+     *  For amenity = "bedroom" it returns 12
+    */
+    getAmenityNumber(text, amenity) {
+        // split by '·' and get element that contains the amenity
+        const substring = text.split('·').find((el) => el.includes(amenity));
+        if (!substring) return NaN;
+
+        // return the first integer from the substring
+        return parseInt(substring.trim().replace(/(^\d+)(.+$)/i, '$1'), 10);
+    }
+
+    verifyAmenityNumberFromListings(amenity, amenityNumber) {
+        this.getSelectors().eItemList.waitForDisplayed();
+
+        this.getSelectors().eListingsGuestsDetails.map((eListingAmenity) => {
+            browser.waitUntil(() => {
+                eListingAmenity.waitForDisplayed();
+                return this.getAmenityNumber(eListingAmenity.getText(), amenity) >= amenityNumber;
+            }, browser.config.waitforTimeout, `A listing has less than ${amenityNumber} ${amenity}!`);
+        });
+    }
 }
 export default new SearchPage();
