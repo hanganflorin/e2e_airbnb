@@ -69,5 +69,27 @@ class SearchPage extends Page {
             }, browser.config.waitforTimeout, `A listing has less than ${amenityNumber} ${amenity}!`);
         });
     }
+
+    getAriaLabelFromFirstListing() {
+        return this.getSelectors().eFirstListing.getAttribute('aria-label');
+    }
+
+    eButtonFromMapForFirstListing() {
+        // find the aria-label from the first listing and then search for an element from the map with that aria-label
+        return $(`${this.getSelectors().eMap.selector}//button[@aria-label="${this.getAriaLabelFromFirstListing()}"]`);
+    }
+
+    eMapBackgroundDiv() {
+        // this div is used to the the color change
+        return $(`${this.eButtonFromMapForFirstListing().selector}//span[text()]/..`);
+    }
+
+    eListingFromMap() {
+        return $(`${this.getSelectors().sListingFromMap}[@aria-label="${this.getAriaLabelFromFirstListing()}"]`);
+    }
+
+    eListingFromMapTitle() {
+        return $(`${this.eListingFromMap().selector}/..//div[@aria-live="polite"]/../div[text()]`);
+    }
 }
 export default new SearchPage();

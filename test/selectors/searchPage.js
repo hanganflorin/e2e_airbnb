@@ -54,5 +54,17 @@ class SearchPage {
     get eFirstListing() {
         return $('//div[@itemprop="itemListElement"]//a');
     }
+
+    get eFirstListingTitle() {
+        return $(`${this.eFirstListing.selector}/..//div[@aria-live="polite"]/../div[text()]`);
+    }
+
+    get eMap() {
+        return $('//div[@data-veloute="map/GoogleMap"]');
+    }
+
+    get sListingFromMap() {
+        return `${this.eMap.selector}//a`;
+    }
 }
 export default new SearchPage();
