@@ -80,7 +80,7 @@ class SearchPage extends Page {
     }
 
     eMapBackgroundDiv() {
-        // this div is used to the the color change
+        // this div is used for the color change test
         return $(`${this.eButtonFromMapForFirstListing().selector}//span[text()]/..`);
     }
 

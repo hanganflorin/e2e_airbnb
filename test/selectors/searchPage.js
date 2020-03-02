@@ -66,5 +66,13 @@ class SearchPage {
     get sListingFromMap() {
         return `${this.eMap.selector}//a`;
     }
+
+    get eListingsFromMap() {
+        return $$(`${this.eMap.selector}//button[@data-veloute]`);
+    }
+
+    get eDetailsPopupFromMap() {
+        return $('//div[@data-veloute="map/GoogleMap"]//a[contains(@target, "listing")]');
+    }
 }
 export default new SearchPage();
